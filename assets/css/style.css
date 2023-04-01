@@ -1,0 +1,43 @@
+* {
+    border: 1px solid black;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    height: 25vh;
+}
+
+main {
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#top-sec {
+    height: 30%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#high-scores {
+    width: 45%;
+}
+
+#options {
+    width: 45%;
+}
+
+#bot-sec {
+    height: 65%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+#random-word {
+    margin: auto;
+    font-size: 500%;
+    letter-spacing: 10px;
+}
+

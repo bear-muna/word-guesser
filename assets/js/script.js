@@ -26,14 +26,24 @@
         // Score displayed onto high scores
     // Possibly store in local storage? 
 
+// TODO: EDGE CASE: WHAT HAPPENS WHEN A WORD HAS MORE THAN ONE OF THE SAME LETTERS
+
+
+
 var highScores = document.querySelector("#high-scores");
 var options = document.querySelector("#options");
 var start = document.querySelector('#start');
 var restart = document.querySelector('#restart');
 var randomWord = document.querySelector('#random-word');
+var timer = document.querySelector('#timer');
 
 var words = ["JAVASCRIPT", "JSON", "DOCUMENT", "CASCADING", "HYPERTEXT"];
-var characterArray;
+var characterArray = [];
+var dashedArray = [];
+var displayWord;
+var secondsLeft = 30;
+var wins = 0;
+var losses = 0;
 
 // What do I want to do with the array?
     // I want to pick a random word?
@@ -44,18 +54,61 @@ var characterArray;
         // splice(x, y, z)
     // Display that new array into the <h1>
 
+function showWord(x) {
+    displayWord = x.join("");
+    randomWord.textContent = displayWord;
+}
+
 function arraySeparate() {
     
     characterArray = words[Math.floor(Math.random() * words.length)].split("");
     console.log(characterArray);
     
-    for (let i = 0; i < (Math.floor(Math.random() * characterArray.length)); i++) {
-        characterArray.splice(i, 1, "-");
+    for (let i = 0; i < characterArray.length; i++) {
+        dashedArray.push("-");
+    }
+
+    showWord(dashedArray);
+    
+};
+
+// Keydown event to confirm pressing a key to match the word
+
+document.addEventListener("keydown", function(event) {
+    var key = event.key.toUpperCase();
+
+    if (characterArray.includes(key)) {
+        var index = characterArray.indexOf(key);
+        dashedArray[index] = key;
+        showWord(dashedArray);
     }
     
-    
-    console.log(characterArray);
-}
+    console.log(index);
+    console.log(event);
+    console.log(dashedArray);
+});
+
+function setTime() {
+    var timerInterval = setInterval(function() {
+        secondsLeft--;
+        timer.textContent = secondsLeft + " seconds remaining!";
+
+        if (secondsLeft > 0 && dashedArray === characterArray) {
+            secondsLeft = 30;
+            wins++;
+            arraySeparate();
+            showWord(dashedArray);
+        }
+        
+        if (secondsLeft === 0 && !(dashedArray === characterArray)) {
+            clearInterval(timerInterval);
+            showWord(characterArray);
+            losses++;
+        }
+
+
+    }, 1000);
+};
 
 
 
@@ -73,6 +126,7 @@ options.addEventListener("click", function(event) {
 });
 
 arraySeparate();
+setTime();
 
 
 
